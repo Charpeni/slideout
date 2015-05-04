@@ -60,6 +60,7 @@ function Slideout(options) {
   this._opened = false;
   this._preventOpen = false;
   this._touch = options.touch === undefined ? true : options.touch && true;
+  this._exclude = options.exclude === undefined ? 'no-slidable' : options.exclude;
 
   // Sets panel
   this.panel = options.panel;
@@ -216,7 +217,7 @@ Slideout.prototype._initTouchEvents = function() {
    */
   this.panel.addEventListener(touch.move, function(eve) {
 
-    if (scrolling || self._preventOpen || typeof eve.touches === 'undefined') { return; }
+    if (scrolling || self._preventOpen || typeof eve.touches === 'undefined' || self.panel.getElementsByClassName(self._exclude).length > 0) { return; }
 
     var dif_x = eve.touches[0].clientX - self._startOffsetX;
     var translateX = self._currentOffsetX = dif_x;
